@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serviço 80/20</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --graphite:#1c1c1e;
+    --off:#f4f1ea;
+    --off-2:#ece8de;
+    --paper:#faf8f3;
+    --orange:#ff5a1f;
+    --orange-soft:#ff7a45;
+    --green:#1fa856;
+    --muted:#9a978e;
+    --ink:#4a473f;
+    --line:rgba(28,28,30,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--graphite);
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+  strong,b{font-weight:600}
+
+  /* utility label */
+  .label{
+    font-family:'JetBrains Mono';font-weight:400;font-size:11px;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--orange);
+  }
+
+  /* ---- topbar ---- */
+  .topbar{padding:26px 0}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-size:15px;font-weight:400;letter-spacing:.02em;display:flex;align-items:center;gap:10px;color:var(--graphite)}
+  .logo .mark{width:8px;height:8px;background:var(--orange);border-radius:50%}
+  .tag-mono{font-family:'JetBrains Mono';font-weight:400;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---- hero ---- */
+  .hero{padding:80px 0 92px;position:relative}
+  .hero::before{
+    content:"";position:absolute;top:40px;left:-2px;width:38px;height:1px;background:var(--orange);
+  }
+  .kicker{font-family:'JetBrains Mono';font-weight:400;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:40px;display:block}
+  h1{
+    font-weight:200;letter-spacing:-.03em;line-height:1.08;
+    font-size:clamp(40px,7vw,82px);max-width:15ch;
+  }
+  h1 .hl{font-weight:600;color:var(--orange)}
+  .sub{
+    font-size:clamp(17px,2vw,21px);font-weight:300;color:var(--ink);
+    max-width:54ch;margin-top:34px;line-height:1.65;
+  }
+  .sub b{color:var(--graphite);font-weight:500}
+
+  /* revenue — inline, minimal */
+  .rev{
+    margin-top:44px;font-size:clamp(18px,2.3vw,24px);font-weight:200;
+    letter-spacing:-.01em;color:var(--graphite);
+  }
+  .rev b{font-weight:600;color:var(--orange)}
+  .rev .mono{font-family:'JetBrains Mono';font-weight:400;font-size:.62em;color:var(--muted);letter-spacing:.05em}
+
+  .cta-row{margin-top:40px;display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+  .btn{
+    font-family:'Inter';font-weight:500;font-size:15px;letter-spacing:.01em;
+    background:var(--orange);color:#fff;border:none;border-radius:100px;
+    padding:16px 32px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:12px;
+    transition:background .2s ease,gap .2s ease;
+  }
+  .btn:hover{background:var(--orange-soft);gap:16px}
+  .btn .arw{transition:transform .2s ease}
+  .cta-note{font-size:13px;font-weight:300;color:var(--muted);max-width:20ch}
+
+  /* section rhythm */
+  .sec{padding:88px 0}
+  .sec .label{margin-bottom:28px;display:block}
+
+  /* ---- for-who ---- */
+  .who p.lead{
+    font-size:clamp(20px,2.6vw,28px);font-weight:200;letter-spacing:-.015em;
+    line-height:1.4;max-width:24ch;color:var(--graphite);
+  }
+  .who p.lead b{font-weight:500;color:var(--graphite)}
+  .skills{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:38px;max-width:60ch}
+  .skills span{
+    font-size:14px;font-weight:300;color:var(--ink);position:relative;
+    font-family:'JetBrains Mono';letter-spacing:.02em;
+  }
+  .skills span::before{content:"·";color:var(--orange);margin-right:12px;font-weight:600}
+
+  /* ---- mechanism ---- */
+  .band{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .band h2{
+    font-size:clamp(24px,3.4vw,38px);font-weight:200;letter-spacing:-.02em;
+    line-height:1.2;max-width:22ch;color:var(--graphite);
+  }
+  .band h2 b{font-weight:500;color:var(--graphite)}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px}
+  .cell{padding:0;position:relative}
+  .cell .pct{
+    font-size:clamp(56px,9vw,92px);font-weight:200;letter-spacing:-.04em;line-height:1;
+  }
+  .cell .pct .sym{font-size:.42em;font-weight:300;letter-spacing:0;vertical-align:top;margin-left:2px}
+  .cell.eighty .pct{color:var(--orange)}
+  .cell.twenty .pct{color:var(--graphite)}
+  .cell h3{font-size:13px;font-weight:500;margin:16px 0 12px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);font-family:'JetBrains Mono'}
+  .cell p{font-size:15px;font-weight:300;color:var(--ink);max-width:32ch;line-height:1.65}
+
+  /* ---- viz clientes ---- */
+  .viz{margin-top:64px;border-top:1px solid var(--line);padding-top:48px}
+  .viz-legend{display:flex;gap:26px;margin-bottom:34px;flex-wrap:wrap}
+  .lg{font-family:'JetBrains Mono';font-size:11px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:9px}
+  .lg::before{content:"";width:11px;height:11px;border-radius:3px;display:inline-block}
+  .lg-exec::before{background:var(--orange)}
+  .lg-pers::before{background:var(--green)}
+  .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:end}
+  .col{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .cli{font-family:'JetBrains Mono';font-size:11px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .bar{width:100%;max-width:120px;display:flex;flex-direction:column;justify-content:flex-end;height:300px;border-radius:8px;overflow:hidden;background:var(--off-2)}
+  .seg{display:flex;align-items:center;justify-content:center;position:relative;transition:height 1s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+  .seg .h{font-family:'JetBrains Mono';font-size:13px;font-weight:500;letter-spacing:.02em;opacity:0;transition:opacity .4s ease .5s}
+  .seg.exec{background:var(--orange);color:#fff;height:0}
+  .seg.pers{background:var(--green);color:#fff;height:0}
+  .col.animate .seg .h{opacity:1}
+  .price{font-family:'JetBrains Mono';font-size:13px;font-weight:500;color:var(--graphite);letter-spacing:.02em}
+  .viz-note{margin-top:36px;font-size:16px;font-weight:300;color:var(--ink);max-width:52ch;line-height:1.6}
+  .viz-note b{font-weight:500;color:var(--graphite)}
+  .viz-cta{margin-top:32px}
+
+  /* ---- footer ---- */
+  footer{padding:56px 0;border-top:1px solid var(--line)}
+  footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  footer p{font-size:12px;font-weight:300;color:var(--muted);font-family:'JetBrains Mono';letter-spacing:.06em}
+
+  /* ---- MODAL ---- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(28,28,30,.4);backdrop-filter:blur(6px);
+    display:none;align-items:center;justify-content:center;padding:20px;z-index:50;
+  }
+  .overlay.on{display:flex;animation:ov .25s ease}
+  @keyframes ov{from{opacity:0}to{opacity:1}}
+  .modal{
+    background:var(--paper);border-radius:18px;max-width:440px;width:100%;
+    padding:40px 34px 32px;position:relative;
+    box-shadow:0 24px 70px rgba(28,28,30,.28);
+    animation:pop .3s cubic-bezier(.2,.9,.3,1.15);max-height:92vh;overflow-y:auto;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .modal .close{
+    position:absolute;top:20px;right:20px;width:30px;height:30px;border:none;cursor:pointer;
+    background:transparent;color:var(--muted);font-size:20px;line-height:1;font-weight:300;
+    display:flex;align-items:center;justify-content:center;transition:color .15s ease;
+  }
+  .modal .close:hover{color:var(--graphite)}
+  .modal .m-label{font-family:'JetBrains Mono';font-weight:400;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+  .modal h3{font-weight:200;font-size:27px;letter-spacing:-.02em;line-height:1.15}
+  .modal h3 b{font-weight:600}
+  .modal .msub{color:var(--ink);font-size:15px;font-weight:300;margin-top:10px}
+  form{margin-top:30px;display:flex;flex-direction:column;gap:20px}
+  .field label{display:block;font-family:'JetBrains Mono';font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;color:var(--muted)}
+  .field input, .field select{
+    width:100%;font-family:'Inter';font-weight:300;font-size:16px;color:var(--graphite);
+    background:transparent;border:none;border-bottom:1px solid var(--line);border-radius:0;padding:10px 2px;
+    transition:border-color .2s ease;appearance:none;
+  }
+  .field select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%23ff5a1f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 2px center;padding-right:28px;cursor:pointer;color:var(--muted);
+  }
+  .field select:valid{color:var(--graphite)}
+  .field input::placeholder{color:var(--muted);font-weight:300}
+  .field input:focus, .field select:focus{outline:none;border-color:var(--orange)}
+  .submit{
+    font-family:'Inter';font-weight:500;font-size:15px;
+    background:var(--graphite);color:var(--off);border:none;border-radius:100px;padding:16px;cursor:pointer;
+    margin-top:8px;transition:background .2s ease;display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .submit:hover{background:var(--orange)}
+  .submit:disabled{opacity:.5;cursor:not-allowed}
+  .form-note{text-align:center;font-size:12px;font-weight:300;color:var(--muted)}
+
+  .success{display:none;text-align:center;padding:14px 0}
+  .success.on{display:block;animation:fadein .4s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .success .check{width:48px;height:48px;border-radius:50%;border:1px solid var(--orange);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+  .success h3{font-weight:200;font-size:24px;letter-spacing:-.02em}
+  .success h3 b{font-weight:600}
+  .success p{color:var(--ink);margin-top:12px;font-size:15px;font-weight:300}
+  .success .wa{
+    margin-top:26px;font-family:'Inter';font-weight:500;font-size:15px;
+    background:var(--graphite);color:var(--off);border-radius:100px;padding:15px 30px;
+    text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:background .2s ease;
+  }
+  .success .wa:hover{background:var(--orange)}
+
+  @media(max-width:720px){
+    .hero{padding:64px 0 60px}
+    .sec{padding:60px 0}
+    .split{grid-template-columns:1fr;gap:36px}
+    .cols{gap:8px}
+    .bar{height:220px}
+    .seg .h{font-size:11px}
+    .lg{font-size:10px}
+    .price{font-size:11px}
+    .cli{font-size:10px}
+    .cta-row{flex-direction:column;align-items:stretch}
+    .btn{justify-content:center}
+    .cta-note{text-align:center;max-width:none}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="logo"><span class="mark"></span>Serviço 80/20</div>
+      <div class="tag-mono">Grupo gratuito</div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Transforme o que você já sabe fazer em um <span class="hl">Serviço 80/20.</span></h1>
+      <p class="sub">Entre no grupo e veja como usar <b>IA para entregar aquilo que as empresas já compram</b> — com 80% do serviço padronizado e apenas 20% personalizado para cada cliente.</p>
+
+      <p class="rev">E assim fazer <b>5k</b> <span class="mono">·</span> <b>10k</b> <span class="mono">·</span> <b>20k</b> <span class="mono">por mês ou mais</span></p>
+
+      <div class="cta-row">
+        <a href="#" class="btn" id="ctaBtn" target="_blank" rel="noopener">Quero entrar no grupo <span class="arw">→</span></a>
+        <span class="cta-note">Sem custo. É só preencher e receber o acesso.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR WHO -->
+  <section class="sec who">
+    <div class="wrap">
+      <span class="label">Para quem é</span>
+      <p class="lead">Quem já possui uma habilidade útil para empresas e quer transformar isso em um <b>serviço mais vendável e replicável.</b></p>
+      <div class="skills">
+        <span>Tráfego</span>
+        <span>Copy</span>
+        <span>Design</span>
+        <span>Automação</span>
+        <span>Conteúdo</span>
+        <span>Vendas</span>
+        <span>Atendimento</span>
+        <span>Tecnologia</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MECHANISM -->
+  <section class="sec band">
+    <div class="wrap">
+      <span class="label">O mecanismo</span>
+      <h2>Cada cliente novo torna o próximo <b>mais fácil de atender.</b></h2>
+
+      <div class="split">
+        <div class="cell eighty">
+          <div class="pct">80<span class="sym">%</span></div>
+          <h3>Padronizado</h3>
+          <p>Aqui entram criativos, sistemas e IA. É o que você monta uma vez e reaproveita nos próximos clientes — assim você padroniza sua entrega.</p>
+        </div>
+        <div class="cell twenty">
+          <div class="pct">20<span class="sym">%</span></div>
+          <h3>Personalizado</h3>
+          <p>O ajuste fino que faz o serviço parecer sob medida — sem começar do zero toda vez, deixando o cliente satisfeito com sua entrega.</p>
+        </div>
+      </div>
+
+      <!-- VISUALIZAÇÃO CLIENTES -->
+      <div class="viz">
+        <div class="viz-legend">
+          <span class="lg lg-exec">Execução padronizada</span>
+          <span class="lg lg-pers">Ajuste personalizado</span>
+        </div>
+        <div class="cols">
+          <div class="col" data-exec="10" data-idx="0">
+            <span class="cli">Cliente 1</span>
+            <div class="bar">
+              <div class="seg exec"><span class="h">10h</span></div>
+              <div class="seg pers"><span class="h">3h</span></div>
+            </div>
+            <span class="price">R$ 2.500</span>
+          </div>
+          <div class="col" data-exec="0" data-idx="1">
+            <span class="cli">Cliente 2</span>
+            <div class="bar">
+              <div class="seg exec"><span class="h">0h</span></div>
+              <div class="seg pers"><span class="h">3h</span></div>
+            </div>
+            <span class="price">R$ 2.500</span>
+          </div>
+          <div class="col" data-exec="0" data-idx="2">
+            <span class="cli">Cliente 3</span>
+            <div class="bar">
+              <div class="seg exec"><span class="h">0h</span></div>
+              <div class="seg pers"><span class="h">3h</span></div>
+            </div>
+            <span class="price">R$ 2.500</span>
+          </div>
+          <div class="col" data-exec="0" data-idx="3">
+            <span class="cli">Cliente 4</span>
+            <div class="bar">
+              <div class="seg exec"><span class="h">0h</span></div>
+              <div class="seg pers"><span class="h">3h</span></div>
+            </div>
+            <span class="price">R$ 2.500</span>
+          </div>
+        </div>
+        <p class="viz-note">Você monta a estrutura <b>uma vez</b> no primeiro cliente. Do segundo em diante, sobra só o ajuste — mesmo preço, uma fração do tempo.</p>
+        <div class="viz-cta">
+          <a href="#" class="btn" id="ctaBtn2" target="_blank" rel="noopener">Quero entrar no grupo <span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Serviço 80/20</p>
+      <p>Grupo gratuito · vagas por preenchimento</p>
+    </div>
+  </footer>
+
+<script>
+  // === CONFIG — troque o link do grupo ===
+  const GRUPO_WHATSAPP = "https://chat.whatsapp.com/GL3nMmcmib8AycVYCTWSNC";
+  // ========================================
+
+  // botões levam direto ao grupo
+  document.getElementById('ctaBtn').href = GRUPO_WHATSAPP;
+  const ctaBtn2 = document.getElementById('ctaBtn2');
+  if(ctaBtn2) ctaBtn2.href = GRUPO_WHATSAPP;
+
+  // visualização de clientes
+  const BAR_PX = 300;       // altura total da barra (bate com o CSS)
+  const PERS_PX = 66;       // altura do bloco verde (fixo, ~3h)
+
+  const cols = document.querySelectorAll('.col');
+  const vizIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        cols.forEach((col)=>{
+          const idx = parseInt(col.dataset.idx,10);
+          const exec = parseInt(col.dataset.exec,10);
+          const execSeg = col.querySelector('.seg.exec');
+          const persSeg = col.querySelector('.seg.pers');
+          setTimeout(()=>{
+            if(exec > 0){
+              // 1º cliente: execução preenche todo o resto da barra
+              execSeg.style.height = (BAR_PX - PERS_PX) + 'px';
+            } else {
+              execSeg.style.height = '0px';
+              execSeg.style.display = 'none';
+            }
+            persSeg.style.height = PERS_PX + 'px';
+            col.classList.add('animate');
+          }, idx * 220);
+        });
+        vizIO.disconnect();
+      }
+    });
+  },{threshold:.35});
+  const viz = document.querySelector('.viz');
+  if(viz) vizIO.observe(viz);
+</script>
+</body>
+</html>
